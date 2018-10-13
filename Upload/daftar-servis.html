@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!-- VENDOR CSS -->
+	
+	<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/vendor/linearicons/style.css">
+	<link rel="stylesheet" href="assets/vendor/chartist/css/chartist-custom.css">
+	<link rel="stylesheet" href="assets/vendor/toastr/toastr.min.css">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+	
+
+	<!-- MAIN CSS -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/jquery.bs_grid.css">
+	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+	<link rel="stylesheet" href="assets/css/demo.css">
+	<!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+	
+ 
+
+
+	<!-- ICONS -->
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+	<script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+	<script src="assets/scripts/config.js"></script>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="index.html"><img src="assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+				
+				
+				
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li><a href="index.html" ><i class="fa fa-upload"></i> <span>Dashboard</span></a></li>
+						<li><a href="daftar-servis.html" class="active"><i class="fa fa-list"></i> <span>Daftar Servis</span></a></li>
+						<li><a href="berita.html" class=""><i class="fa fa-wrench"></i> <span>Berita</span></a></li>
+						<li><a href="daftar-berita.html" class=""><i class="fa fa-database"></i> <span>Daftar Berita</span></a></li>
+						
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						<div class="panel-heading">
+							<h3 class="panel-title">Daftar Berita</h3>
+						
+						</div>
+						<div class="panel-body">
+								
+									<table id="berita_list" class="table table-striped">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>No Tiket</th>
+												<th>Nama Pelanggan</th>
+												<th>Nomor Telpon</th>
+												<th>Email</th>
+												<th>Barang</th>
+												<th>Detail</th>
+												<th>Setuju</th>
+												<th>Keterangan</th>
+												<th>Aksi</th>
+											</tr>
+										</thead>
+										<tbody id="table_body">
+													
+										</tbody>
+									</table>
+							
+							
+						</div>
+					</div>
+					<!-- END OVERVIEW -->
+
+
+				
+
+
+					
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="assets/vendor/jquery/jquery.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+	<script src="assets/vendor/chartist/js/chartist.min.js"></script>
+	<script src="assets/scripts/klorofil-common.js"></script>
+	
+	<script src="assets/vendor/toastr/toastr.min.js"></script>
+	
+
+	<script src="assets/scripts/jquery.bs_grid.js"></script>
+	
+
+
+
+	<script>
+
+	</script>
+
+<script>
+
+	var tblUsers = document.getElementById('berita_list');
+	  var databaseRef = firebase.database().ref('servis/');
+	  var rowIndex = 1;
+	  var nmr =1;
+	  
+	  databaseRef.once('value', function(snapshot) {
+		snapshot.forEach(function(childSnapshot) {
+	   var childKey = childSnapshot.key;
+	   var childData = childSnapshot.val();
+
+	   
+	   
+	   var row = tblUsers.insertRow(rowIndex);
+	   var cellNmr = row.insertCell(0);
+	   var celltransaksi= row.insertCell(1);
+	   var cellnama= row.insertCell(2);
+	   var celltelpon= row.insertCell(3);
+	   var cellemail= row.insertCell(4);
+	   var cellbarang= row.insertCell(5);
+	   var celldetail= row.insertCell(6);
+	   var cellsetuju= row.insertCell(7);
+	   var celltoken= row.insertCell(8);
+	   var cellaksi = row.insertCell(9);
+	   
+	   
+	   var input = document.createElement("a");
+	   	input.href = childData.foto;	
+		input.type = "button";
+		input.className = "btn btn-primary";
+		input.innerHTML = "Lihat Gambar";
+		input.target ="_blank"
+			
+		
+		
+		var ketsetuju = childData.setuju;
+		var kettoken = childData.token;
+		var ketketerangan = childData.keterangan;
+
+		if(ketsetuju=="0"){
+			var setuju = "Belum";
+		}else if(ketsetuju=="1") {
+			var setuju = "Setuju";
+		}else{
+			var setuju = "Batal";
+		}
+
+
+		
+			if(ketketerangan=="0"){
+				var selesaibtn = document.createElement("button");
+				selesaibtn.type = "button";
+				selesaibtn.id = "selesaibtn";
+				selesaibtn.className = "btn btn-block btn-success";
+				selesaibtn.innerHTML = "Selesai";
+				selesaibtn.addEventListener('click', function(){
+				
+				console.log("Selesai");
+				selesai(childKey,childData.token);
+				});
+
+			}else{
+				var selesaibtn = document.createElement("button");
+				selesaibtn.type = "button";
+				selesaibtn.className = "btn btn-block btn-primarys";
+				selesaibtn.innerHTML = "Sudah Terselesaikan";
+				selesaibtn.disabled = true;
+				
+			}
+			celltoken.appendChild(selesaibtn);
+
+		
+
+		var btnaksi = document.createElement("a");
+		btnaksi.href = "edit-detail.html?tiket="+childKey+"&token="+childData.token;	
+		btnaksi.type = "button";
+		btnaksi.className = "btn btn-primary";
+		btnaksi.innerHTML = "Edit Detail";
+		
+
+	   cellNmr.appendChild(document.createTextNode(nmr)); 
+	   celltransaksi.appendChild(document.createTextNode(childKey));
+	   cellnama.appendChild(document.createTextNode(childData.nama));
+	   celltelpon.appendChild(document.createTextNode(childData.telpon));
+	   cellemail.appendChild(document.createTextNode(childData.email));
+	   cellbarang.appendChild(document.createTextNode(childData.barang));
+	   celldetail.appendChild(document.createTextNode(childData.detail));
+	   cellsetuju.appendChild(document.createTextNode(setuju));
+	   cellaksi.appendChild(btnaksi);
+	   //celltoken.appendChild(document.createTextNode(token));
+
+	 
+	  // cellkey.appendChild(hapusbtn);
+
+	   rowIndex = rowIndex + 1;
+	   nmr++;
+		});
+	  });
+	
+
+	
+	
+
+	function selesai(key,token){
+		document.getElementById("selesaibtn").innerHTML= '<i class="fa fa-spinner fa-spin"></i> Loading....';
+            firebase.database().ref('servis/' + key).update({            
+			keterangan : "1"
+			
+         }, function(error) {
+			if (error) {
+			console.log("gagal");
+			} else {
+
+				kirimnotif(token);
+			
+			}
+		});
+
+	}
+
+
+	function kirimnotif(token){
+
+	var obj,  dbParam, xmlhttp, myObj, x;
+
+	obj = { "ttl" : "3600s", "priority": "high", "notification": { "title": "Perbaikan Telah Selesai", "body": "Anda sudah dapat mengambil barang... ", "sound" : "default" },  "to" : token };
+	//header = {'Authorization':'key=AAAANI_LoUY:APA91bFygIlwn9BxTwrDNAmFjznC7ItX9W7hDPEJjHkmEXQsgtZcGrqCypO8noHAwjxGuXs6xysp-aTQ7FUvQNb-q0FmeCNUmHkIMmZGHzITi3udH6HFRIOe50PFI9jcXbUD6lIvoIFV', 'Content-Type':'application/json'};
+	dbParam = JSON.stringify(obj);
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			myObj = JSON.parse(this.responseText);
+				console.log("Berhasil dengan id : "+ myObj.message_id);
+				alert("Servis Telah Selesai....");
+				location.reload();
+		}
+	};
+
+	xmlhttp.open("POST", "https://fcm.googleapis.com/fcm/send", true);
+	xmlhttp.setRequestHeader("Authorization", "key=AAAANI_LoUY:APA91bFygIlwn9BxTwrDNAmFjznC7ItX9W7hDPEJjHkmEXQsgtZcGrqCypO8noHAwjxGuXs6xysp-aTQ7FUvQNb-q0FmeCNUmHkIMmZGHzITi3udH6HFRIOe50PFI9jcXbUD6lIvoIFV");
+	xmlhttp.setRequestHeader("Content-Type", "application/json");
+	xmlhttp.send(dbParam);
+
+	}
+
+	</script>
+	<script>
+
+		$( document ).ready(function() {
+    	$("#berita_list").bs_grid('getDefaults')
+});
+
+	
+
+	</script>
+</body>
+
+</html>
